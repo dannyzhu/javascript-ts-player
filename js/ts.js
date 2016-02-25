@@ -21,7 +21,6 @@ var Stream = (function stream() {
             xhr.responseType = "arraybuffer";
             if (progress) {
                 xhr.onprogress = function (event) {
-                    logger("xhr process");
                     progress(xhr.response, event.loaded, event.total);
                 };
             }
@@ -557,11 +556,11 @@ var TSReader = (function reader() {
                     }
                 }
                 if (ada.adaptation_field_extension_flag == 1) {
-                    //logger("adaptation_field_extension_flag = 1");
+                    //console.info("adaptation_field_extension_flag = 1");
                 }
                 var unreadLen = ada.adaptation_field_length - (startPos - this.stream.remaining);
                 if (unreadLen > 0) {
-                    //logger("ada skip size=" + unreadLen);
+                    //console.info("ada skip size=" + unreadLen);
                     this.stream.skip(unreadLen);
                 } else if (unreadLen < 0) {
                     ada.error = true;
@@ -713,8 +712,6 @@ var TSReader = (function reader() {
                 this.readAudioFrame(new Bytestream(audioFrame));
             }
 
-            //logger("allPacktes=" + allPacktes + ", videoFrameCount=" + videoFrameCount + ", frames.len=" + this.frames.length);
-
             console.info("Parsed stream in " + ((new Date).getTime() - start) + " ms");
             return true;
         }
@@ -745,12 +742,6 @@ var TSPlayer = (function reader() {
         this.videoCanvasId = videoCanvasId;
         if (audioId && !this.audioPlayerEnable) {
             this.audioElement = document.getElementById(audioId);
-            //this.audioElement.ontimeupdate = function () {
-            //}.bind(this);
-            //this.audioElement.onended = function () {
-            //}.bind(this);
-            //this.audioElement.onplay = function () {
-            //}.bind(this);
         }
 
         this.avc = new Player({
@@ -766,7 +757,7 @@ var TSPlayer = (function reader() {
 
         this.avc.onPictureDecoded = function (buffer, width, height) {
             if (this.startPts == 0) {
-                //logger("first frame decoded. width=" + width + ", height=" + height + ", buf size=" + buffer.length);
+                console.info("first frame decoded. width=" + width + ", height=" + height + ", buf size=" + buffer.length);
                 this.videoWidth = width;
                 this.videoHeight = height;
                 this.startPic = this.pic;
@@ -806,7 +797,6 @@ var TSPlayer = (function reader() {
                 var readRet = this.reader.read();
                 this.initAudioPlay();
                 console.info("TSPlayer::readAll(), length: " + this.reader.stream.length);
-                //logger("TSPlayer::readAll(), length: " + this.reader.stream.length);
                 if (callback) callback(readRet);
             }.bind(this));
         },
@@ -891,7 +881,6 @@ var TSPlayer = (function reader() {
                             if (dx < pts) {
                                 setTimeout(decodeNext.bind(this), pts - dx);
                             } else {
-                                //logger("decode pic=" + this.pic + ", len=" + this.reader.frames[this.pic].data.length);
                                 this.avc.decode(this.reader.frames[this.pic].data);
                                 this.pic++;
                                 this.currentTime = pts;
@@ -951,10 +940,3 @@ var TSPlayer = (function reader() {
 
     return constructor;
 })();
-
-
-window.TSPlayer = TSPlayer;
-window.TSReader = TSReader;
-window.Stream = Stream;
-window.Size = Size;
-window.Bytestream = Bytestream;

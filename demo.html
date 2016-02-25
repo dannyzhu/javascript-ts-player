@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+    <meta charset="utf-8"/>
+    <title>Javascript ts player demo</title>
+    <style type="text/css">
+        .bigFont {
+            font-size: 2em;
+        }
+    </style>
+    <script type="text/javascript">
+    </script>
+</head>
+<body>
+<div id="videoContainer">
+</div>
+<div id="newVideoDiv">
+    <canvas id="vCanvas"></canvas>
+</div>
+<div>
+    <audio id="aacAudio" preload>
+        <source src="demo.aac" type="audio/mp4; codecs=mp4a.40.5" preload>
+    </audio>
+</div>
+<div id="loading" style="">Loading</div>
+<div id="playLink" class="bigFont" style="display: none">
+    <a href="#" onclick="startPlay();return false;">Start</a>
+    <a href="#" onclick="stopPlay();return false;">Stop</a>
+</div>
+<script src="js/Decoder.js"></script>
+<script src="js/YUVWebGLCanvas.js"></script>
+<script src="js/Player.js"></script>
+<script src="js/aurora.js"></script>
+<script src="js/aac.js"></script>
+<script src="js/ts.js"></script>
+<script type="text/javascript">
+
+    //var player = new TSPlayer(new Stream('demo.ts'), false, '', false, 176, 256, videoReady, null, 'vCanvas');
+
+    //var player = new TSPlayer(new Stream('demo.ts'), false, '', 'auto', 0, 0, videoReady, 'aacAudio', 'vCanvas');
+
+    var player = new TSPlayer(new Stream('demo.ts'), false, '', false, 0, 0, videoReady, 'aacAudio');
+    document.getElementById('videoContainer').appendChild(player.canvas);
+    document.getElementById('newVideoDiv').style.display = 'none';
+
+    player.onended = function () {
+        console.info("play ended.");
+    };
+
+    function startPlay() {
+        player.play();
+        return false;
+    }
+
+    function stopPlay() {
+        player.stop();
+        return false;
+    }
+
+    function videoReady(ok) {
+        console.info("video ready : " + ok);
+        document.getElementsByTagName('canvas')[0].style.width = '280px';
+
+        if (ok) {
+            document.getElementById('loading').style.display = 'none';
+            document.getElementById('playLink').style.display = '';
+        } else {
+            document.getElementById('loading').innerText = "Read file error.";
+        }
+    }
+
+</script>
+
+</body>
+</html>
+

@@ -1,2 +1,2 @@
 # javascript-ts-player
-Javascript play ts on browser.
+Javascript ts player on browser.

@@ -846,18 +846,9 @@ var TSPlayer = (function reader() {
                 return;
             }
 
-            //this.playAudio();
-            //this.decodeVideo();
-            
-            var len = this.reader.frames.length;
-            var i = 0;
-            var time_begin = (new Date()).getTime();
-            for (i = 0; i < len; i++) {
-            	this.avc.decode(this.reader.frames[i].data);
-            }
-            var time_end = (new Date()).getTime();
-            var seconds = (time_end - time_begin) / 1000.0;
-            alert("Frames decoded: " + len + ". Seconds used: " + seconds + ". FPS: " + (len/seconds));
+            this.playAudio();
+
+            this.decodeVideo();
 
         },
         getAudioCurrentTime: function () {

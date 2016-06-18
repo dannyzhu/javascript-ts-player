@@ -151,8 +151,6 @@
         var lastHeight = this._config.size.height;
 
         var onPictureDecoded = function (buffer, width, height, time, timeStart) {
-        	console.log("enter webgl and return ASAP");
-        	return;
             //logger("webgl on picture decoded w x h = " + width + " x " + height);
             self.onPictureDecoded(buffer, width, height, time, timeStart);
 
@@ -195,8 +193,6 @@
 
         if (!this.webgl) {
             onPictureDecoded = function (buffer, width, height, time, timeStart) {
-            	console.log("enter no webgl and return ASAP");
-            	return;
                 //logger("no webgl on picture decoded w x h = " + width + " x " + height + ", buf size=" + buffer.length);
                 self.onPictureDecoded(buffer, width, height, time, timeStart);
 

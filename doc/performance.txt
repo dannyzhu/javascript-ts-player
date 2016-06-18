@@ -1,0 +1,14 @@
+# Test stream: 1098 frames, H.264 baseline. Date: 2016-06-18
+
+## Safari on iMac
+(FPS)				demo.html		demo-ff.html
+1080x720, 1200kbps		67			65
+1080x720, 600kbps		80			75
+540x360, 300kbps		284			242
+540x360, 150kbps		317			267
+
+## Safari on iPhone SE
+(FPS)				demo.html		demo-ff.html
+1080x720, 600kbps		48			22
+540x360, 300kbps		153			76
+540x360, 150kbps		176			80
